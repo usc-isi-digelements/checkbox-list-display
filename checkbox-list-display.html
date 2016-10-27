@@ -72,7 +72,7 @@ Example:
          * Contains state of facet checkboxes to persist
          * selection state between queries.
          *
-         * @type: {{'Los Angeles': {text: 'Los Angeles, CA', key: 'Los Angeles', count: 10, enabled: true, category: 'City'}}}
+         * @type: {{'Los Angeles': {text: 'Los Angeles, CA', key: 'Los Angeles', enabled: true, category: 'City'}}}
          */
         facetSelection: {
           type: Object,
@@ -135,7 +135,6 @@ Example:
         this.facetSelection[facet.key] = {
           text: facet.text,
           key: facet.key,
-          count: facet.count,
           enabled: facet.enabled,
           category: this.category
         };
@@ -143,7 +142,6 @@ Example:
         this.notifyPath('facetSelection.*', {
           text: facet.text,
           key: facet.key,
-          count: facet.count,
           enabled: facet.enabled,
           category: this.category
         });

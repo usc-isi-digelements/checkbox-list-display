@@ -83,7 +83,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           element.facetSelection.test02 = {
             text: 'sometext',
             key: 'test02',
-            count: 10,
             enabled: true,
             category: element.category
           };
@@ -109,7 +108,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           element.updateFacetSelection(eventToPassIn);
 
           assert.deepEqual(element.facetSelection, {test01: {text: 'test01', key: 'test01',
-            count: 10, enabled: true, category: element.category}});
+            enabled: true, category: element.category}});
         });
 
         test('getFacetContent returns text label with facet count', function() {
