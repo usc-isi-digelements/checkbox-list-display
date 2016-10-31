@@ -153,7 +153,8 @@ Example:
        * @return {String}
        */
       getFacetContent: function(facet) {
-        return facet.text + (facet.count ? ' (' + facet.count + ')' : '');
+        // Use regex replace to add commas to count.
+        return facet.text + (facet.count ? ' (' + facet.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ')' : '');
       }
     });
   </script>
