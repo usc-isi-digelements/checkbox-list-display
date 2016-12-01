@@ -1,24 +1,20 @@
 # checkbox-list-display
 
-An element used to display checkboxes for filtering (used along with elastic-checkbox-list-filter).
+An element used to display checkboxes for filtering (and can also be used along with elastic-checkbox-list-filter).
 
-Example:
+### Example
 ```html
     <checkbox-list-display
-      buckets="[[countryResult.aggregations.countryAgg.countryAgg.buckets]]"
-      facet-selection="{{countryFacetSelection}}"
-      facets="{{countryFacets}}"
-      category="Country">
+        buckets="[[countryResult.aggregations.countryAgg.countryAgg.buckets]]"
+        facet-selection="{{countryFacetSelection}}"
+        facets="{{countryFacets}}"
+        category="Country">
     </checkbox-list-display>
 ```
 
-## Dependencies
+### Dependencies
 
-Element dependencies are managed via [Bower](http://bower.io/). You can
-install that via:
+Dependencies are installed using [Bower](http://bower.io/):
 
     npm install -g bower
-
-Then, go ahead and download the element's dependencies:
-
     bower install

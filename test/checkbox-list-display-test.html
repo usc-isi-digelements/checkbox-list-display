@@ -72,6 +72,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           assert.equal(element.facets[0].text, buckets[0].key);
           assert.equal(element.facets[0].count, buckets[0].doc_count);
           assert.isFalse(element.facets[0].enabled);
+          assert.isFalse(element.images);
+          assert.equal(element.imageStyleClass, '');
         });
 
         test('if show is set to 0, display all buckets', function() {
@@ -96,7 +98,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           assert.isTrue(facetsResult[1].enabled);
         });
 
-        test('updateFacetSelection fires when a checkbox is tapped', function() {
+        test('_updateFacetSelection fires when a checkbox is tapped', function() {
           var tappedFacet = element.facets[0];
           tappedFacet.enabled = true;
 
@@ -105,20 +107,67 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             facet: tappedFacet
           };
 
-          element.updateFacetSelection(eventToPassIn);
+          element._updateFacetSelection(eventToPassIn);
 
           assert.deepEqual(element.facetSelection, {test01: {text: 'test01', key: 'test01',
             enabled: true, category: element.category}});
         });
 
-        test('getFacetContent returns text label with facet count', function() {
-          var content = element.getFacetContent(element.facets[0]);
+        test('_getFacetContent returns string with facet text and count', function() {
+          var content = element._getFacetContent(element.facets[0]);
           var expectedValue = element.facets[0].text + ' (' + element.facets[0].count + ')';
+          assert.equal(content, expectedValue);
+        });
+
+        test('_getFacetCount returns string with facet count', function() {
+          var content = element._getFacetCount(element.facets[0]);
+          var expectedValue = '(' + element.facets[0].count + ')';
           assert.equal(content, expectedValue);
         });
       });
 
-    </script>
+      suite('checkbox-list-display tests with images', function() {
+        var element;
+        var buckets = [
+          {key: 'test01', doc_count: 10},
+          {key: 'test02', text: 'sometext', doc_count: 10},
+          {key: 'test03', doc_count: 10},
+          {key: 'test04', doc_count: 10},
+          {key: 'test05', doc_count: 10},
+          {key: 'test06', doc_count: 10},
+          {key: 'test07', doc_count: 10},
+          {key: 'test08', doc_count: 10},
+          {key: 'test09', doc_count: 10},
+          {key: 'test10', doc_count: 10},
+          {key: 'test11', doc_count: 10}
+        ];
 
+        setup(function(done) {
+          element = fixture('checkbox-list-display-fixture');
+          element.buckets = buckets;
+          element.category = 'Test';
+          element.images = true;
+          element.imageStyleClass = 'blur';
+          flush(done);
+        });
+
+        test('properties are set to expected values', function() {
+          assert.deepEqual(element.facetSelection, {});
+          assert.equal(element.show, 10);
+          assert.equal(element.facets.length, 10);
+          assert.equal(element.facets[0].key, buckets[0].key);
+          assert.equal(element.facets[0].text, buckets[0].key);
+          assert.equal(element.facets[0].count, buckets[0].doc_count);
+          assert.isFalse(element.facets[0].enabled);
+          assert.isTrue(element.images);
+          assert.equal(element.imageStyleClass, 'blur');
+        });
+
+        test('has iron-image elements', function() {
+          assert.isDefined(element.$$('iron-image'));
+          assert.notEqual(element.$$('iron-image').className.split(' ').indexOf('blur'), -1);
+        });
+      });
+    </script>
   </body>
 </html>

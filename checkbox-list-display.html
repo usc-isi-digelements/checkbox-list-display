@@ -9,19 +9,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-image/iron-image.html">
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../dig-common/dig-common.html">
 
 <!--
-An element used to display checkboxes for filtering (used along with elastic-checkbox-list-filter).
+An element used to display checkboxes for filtering.
 
 Example:
 
     <checkbox-list-display
-      buckets="[[countryResult.aggregations.countryAgg.countryAgg.buckets]]"
-      facet-selection="{{countryFacetSelection}}"
-      facets="{{countryFacets}}"
-      category="Country">
+        buckets="[[countryResult.aggregations.countryAgg.countryAgg.buckets]]"
+        facet-selection="{{countryFacetSelection}}"
+        facets="{{countryFacets}}"
+        category="Country">
     </checkbox-list-display>
 
 @demo demo/index.html
@@ -33,31 +34,44 @@ Example:
       :host {
         display: block;
       }
+      iron-image {
+        height: 50px;
+        width: 50px;
+      }
     </style>
+
     <template is="dom-repeat" items="{{facets}}" as="facet">
-      <paper-checkbox name="[[facet.key]]" checked="{{facet.enabled}}" on-tap="updateFacetSelection" class="layout horizontal">
-        [[getFacetContent(facet)]]
+      <paper-checkbox name="[[facet.key]]" checked="{{facet.enabled}}" on-tap="_updateFacetSelection" class="layout horizontal">
+        <template is="dom-if" if="[[images]]">
+          <iron-image class$="[[imageStyleClass]]" src="[[facet.text]]" sizing="contain"></iron-image>
+          [[_getFacetCount(facet)]]
+        </template>
+        <template is="dom-if" if="[[!images]]">
+          [[_getFacetContent(facet)]]
+        </template>
       </paper-checkbox>
     </template>
   </template>
+
   <script>
     Polymer({
       is: 'checkbox-list-display',
 
       properties: {
         /**
-         * the list of buckets from an elastic search
-         * aggregation result
+         * The list of buckets from an elastic search aggregation result.
+         *
+         * @type {Array}
          */
         buckets: {
           type: Array
         },
 
         /**
-         * Computed list of facet buckets used for displaying
-         * checkboxes
+         * Computed list of facet buckets used for displaying checkboxes.
          *
-         * @type: [{text: 'Los Angeles, CA', key: 'Los Angeles', count: 10, enabled: true}]
+         * @type [{text: 'Los Angeles, CA', key: 'Los Angeles', count: 10, enabled: true}]
+         * @default []
          */
         facets: {
           type: Array,
@@ -69,10 +83,10 @@ Example:
         },
 
         /**
-         * Contains state of facet checkboxes to persist
-         * selection state between queries.
+         * Contains state of facet checkboxes to persist selection state between queries.
          *
-         * @type: {{'Los Angeles': {text: 'Los Angeles, CA', key: 'Los Angeles', enabled: true, category: 'City'}}}
+         * @type {{'Los Angeles': {text: 'Los Angeles, CA', key: 'Los Angeles', enabled: true, category: 'City'}}}
+         * @default {}
          */
         facetSelection: {
           type: Object,
@@ -83,7 +97,10 @@ Example:
         },
 
         /**
-         * If aggregation has many buckets, show only the first few (defaults to 10).
+         * If aggregation has many buckets, show only the first few.
+         *
+         * @type {Number}
+         * @default 10
          */
         show: {
           type: Number,
@@ -92,17 +109,43 @@ Example:
 
         /**
          * Identifier for checkbox filter set
+         *
+         * @type {String}
          */
         category: {
           type: String
+        },
+
+        /**
+         * Whether to show the text in the checkboxes as images.
+         *
+         * @type {Boolean}
+         * @default false
+         */
+        images: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * The style class for images (if the "images" property is true).
+         *
+         * @type {String}
+         * @default ''
+         */
+        imageStyleClass: {
+          type: String,
+          value: ''
         }
       },
+
       /**
        * Builds the state of the facet checkboxes based on the inputted
        * buckets list and the saved state of selections
        *
        * @param {Array} Buckets obtained via elasticsearch
        * @return {Array} facets
+       * @private
        */
       _extractFacets: function(buckets) {
         var me = this;
@@ -124,12 +167,14 @@ Example:
         });
         return facetsList;
       },      
+
       /**
        * When checkbox is tapped, update the specified facet to be enabled or disabled.
-       * 
+       *
        * @event tap
+       * @private
        */
-      updateFacetSelection: function(event) {
+      _updateFacetSelection: function(event) {
         var facet = event.model.facet;
 
         this.facetSelection[facet.key] = {
@@ -146,15 +191,28 @@ Example:
           category: this.category
         });
       },
+
       /**
        * Returns the content for the checkbox containing the given facet.
        *
-       * @param {Object} object from facets array 
+       * @param {Object} facet
        * @return {String}
+       * @private
        */
-      getFacetContent: function(facet) {
+      _getFacetContent: function(facet) {
         // Use regex replace to add commas to count.
-        return facet.text + (facet.count ? ' (' + facet.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ')' : '');
+        return facet.text + ' ' + this._getFacetCount(facet);
+      },
+
+      /**
+       * Returns the count text for the checkbox containing the given facet.
+       *
+       * @param {Object} facet
+       * @return {String}
+       * @private
+       */
+      _getFacetCount: function(facet) {
+        return (facet.count ? '(' + facet.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ')' : '');
       }
     });
   </script>
