@@ -1,6 +1,6 @@
 # checkbox-list-display
 
-An element used to display checkboxes for filtering (and can also be used along with elastic-checkbox-list-filter).
+A Polymer Element showing labeled checkboxes for filtering.
 
 ### Example
 ```html

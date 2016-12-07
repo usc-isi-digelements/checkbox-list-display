@@ -11,12 +11,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-image/iron-image.html">
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../dig-common/dig-common.html">
 
 <!--
-An element used to display checkboxes for filtering.
+A Polymer Element showing labeled checkboxes for filtering.
 
-Example:
+### Example
 
     <checkbox-list-display
         buckets="[[countryResult.aggregations.countryAgg.countryAgg.buckets]]"
@@ -59,7 +58,8 @@ Example:
 
       properties: {
         /**
-         * The list of buckets from an elastic search aggregation result.
+         * The list of buckets from an elastic search aggregation result.  Each bucket is an object with properties:
+         * {Number} doc_count, {String} key, {String} text (optional)
          *
          * @type {Array}
          */
@@ -68,9 +68,10 @@ Example:
         },
 
         /**
-         * Computed list of facet buckets used for displaying checkboxes.
+         * Computed list of facet buckets used for displaying checkboxes.  Each facet bucket is an object with properties:
+         * {Number} count, {Boolean} enabled, {String} key, {String} text
          *
-         * @type [{text: 'Los Angeles, CA', key: 'Los Angeles', count: 10, enabled: true}]
+         * @type {Array}
          * @default []
          */
         facets: {
@@ -83,9 +84,10 @@ Example:
         },
 
         /**
-         * Contains state of facet checkboxes to persist selection state between queries.
+         * Contains state of facet checkboxes to persist selection state between queries.  This object maps a facet bucket key to an object with properties:
+         * {String} category, boolean enabled, {String} key, {String} text
          *
-         * @type {{'Los Angeles': {text: 'Los Angeles, CA', key: 'Los Angeles', enabled: true, category: 'City'}}}
+         * @type {Object}
          * @default {}
          */
         facetSelection: {
@@ -97,7 +99,7 @@ Example:
         },
 
         /**
-         * If aggregation has many buckets, show only the first few.
+         * If aggregation has many buckets, show only the first few.  Disabled if set to 0.
          *
          * @type {Number}
          * @default 10
@@ -143,15 +145,13 @@ Example:
        * Builds the state of the facet checkboxes based on the inputted
        * buckets list and the saved state of selections
        *
-       * @param {Array} Buckets obtained via elasticsearch
        * @return {Array} facets
        * @private
        */
-      _extractFacets: function(buckets) {
+      _extractFacets: function() {
         var me = this;
         var facets = {};
-        var facetsList = [];
-        _.each(buckets.value, function(bucket) {
+        var facetsList = this.buckets.reduce(function(facetsList, bucket) {
           facets[bucket.key] = {
             text: (bucket.text) ? bucket.text : bucket.key,
             key: bucket.key,
@@ -159,12 +159,12 @@ Example:
             enabled: (me.facetSelection[bucket.key] ? me.facetSelection[bucket.key].enabled : false)
           };
 
-          facetsList.push(facets[bucket.key]);
-
-          if(me.show !== 0 && facetsList.length === me.show) {
-            return false;
+          if(!me.show || facetsList.length < me.show) {
+            facetsList.push(facets[bucket.key]);
           }
-        });
+
+          return facetsList;
+        }, []);
         return facetsList;
       },      
 

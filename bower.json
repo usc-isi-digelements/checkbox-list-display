@@ -1,10 +1,10 @@
 {
   "name": "checkbox-list-display",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "authors": [
     "Next Century Corporation"
   ],
-  "description": "An element used to display checkboxes for filtering.",
+  "description": "A Polymer Element showing labeled checkboxes for filtering.",
   "keywords": [
     "web-component",
     "polymer",
@@ -18,16 +18,12 @@
     "/test/"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.2.0",
-    "iron-elements": "PolymerElements/iron-elements#^1.0.0",
-    "paper-elements": "PolymerElements/paper-elements#^1.0.1",
-    "dig-common": "DigElements/dig-common#^0.0.5"
+    "polymer": "Polymer/polymer#^1.7.0",
+    "iron-elements": "PolymerElements/iron-elements#^1.0.10",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.7"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
-    "web-component-tester": "^4.0.0"
-  },
-  "resolutions": {
-    "lodash": "^4.12.0"
+    "iron-component-page": "PolymerElements/iron-component-page#^1.1.7",
+    "web-component-tester": "^5.0.0"
   }
 }
