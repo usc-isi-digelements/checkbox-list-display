@@ -39,7 +39,7 @@
           {key: 'test11', doc_count: 10}
         ];
 
-        setup(function() {
+        setup(function(done) {
           element = fixture('checkbox-list-display-fixture');
           element.buckets = buckets;
           element.category = 'Test';
@@ -47,6 +47,7 @@
           showAllElement = fixture('checkbox-list-display-fixture-show-all');
           showAllElement.buckets = buckets;
           showAllElement.category = 'Test';
+          flush(done);
         });
 
         test('properties are set to expected values', function() {
@@ -109,6 +110,21 @@
           var expectedValue = '(' + element.facets[0].count + ')';
           assert.equal(content, expectedValue);
         });
+
+        test('has paper-checkbox elements but no iron-image elements', function() {
+          var eventToPassIn = document.createEvent('UIEvent');
+          eventToPassIn.model = {
+            facet: 'somefacet'
+          };
+
+          assert.isNull(element.$$('iron-image'));
+          assert.isNotNull(element.$$('paper-checkbox'));
+          assert.equal(Polymer.dom(element.root).querySelectorAll('paper-checkbox').length, element.facets.length);
+          assert.equal(element.$$('paper-checkbox').name, element.facets[0].key);
+          assert.equal(element.$$('paper-checkbox').checked, element.facets[0].enabled);
+          assert.equal(element.$$('paper-checkbox').innerText, element._getFacetContent(element.facets[0]));
+          assert.equal(element.$$('paper-checkbox').onTap, element._updateFacetSelection(eventToPassIn));
+        });
       });
 
       suite('checkbox-list-display tests with images', function() {
@@ -148,8 +164,23 @@
           assert.equal(element.imageStyleClass, 'blur');
         });
 
-        test('has iron-image elements', function() {
+        test('has paper-checkbox and iron-image elements', function() {
+          var eventToPassIn = document.createEvent('UIEvent');
+          eventToPassIn.model = {
+            facet: 'somefacet'
+          };
+
+          assert.isDefined(element.$$('paper-checkbox'));
           assert.isDefined(element.$$('iron-image'));
+          assert.equal(Polymer.dom(element.root).querySelectorAll('paper-checkbox').length, element.facets.length);
+          assert.equal(Polymer.dom(element.root).querySelectorAll('iron-image').length, element.facets.length);
+          assert.isTrue(element.$$('paper-checkbox').innerText.includes(element._getFacetCount(element.facets[0])));
+          assert.notEqual(element.$$('paper-checkbox').innerText, element._getFacetCount(element.facets[0]));
+          assert.equal(element.$$('paper-checkbox').name, element.facets[0].key);
+          assert.equal(element.$$('paper-checkbox').checked, element.facets[0].enabled);
+          assert.equal(element.$$('paper-checkbox').onTap, element._updateFacetSelection(eventToPassIn));
+          assert.equal(element.$$('iron-image').src, element.facets[0].text);
+          assert.equal(element.$$('iron-image').sizing, 'contain');
           assert.notEqual(element.$$('iron-image').className.split(' ').indexOf('blur'), -1);
         });
       });
