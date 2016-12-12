@@ -50,6 +50,7 @@ A Polymer Element showing labeled checkboxes for filtering.
       properties: {
         /**
          * (Required)
+         *
          * The list of buckets from an elastic search aggregation result.  Each bucket is an object with properties:
          * {Number} doc_count, {String} key, {String} text (optional)
          *
@@ -61,6 +62,7 @@ A Polymer Element showing labeled checkboxes for filtering.
 
         /**
          * (Output)
+         *
          * Computed list of facet buckets used for displaying checkboxes.  Each facet bucket is an object with properties:
          * {Number} count, {Boolean} enabled, {String} key, {String} text
          *
@@ -78,6 +80,7 @@ A Polymer Element showing labeled checkboxes for filtering.
 
         /**
          * (Optional|Output)
+         *
          * Contains state of facet checkboxes to persist selection state between queries.  This object maps a facet bucket key to an object with properties:
          * {String} category, {Boolean} enabled, {String} key, {String} text
          *
@@ -94,6 +97,7 @@ A Polymer Element showing labeled checkboxes for filtering.
 
         /**
          * (Optional)
+         *
          * If aggregation has many buckets, show only the first few.  Disabled if set to 0.
          *
          * @type {Number}
@@ -106,6 +110,7 @@ A Polymer Element showing labeled checkboxes for filtering.
 
         /**
          * (Optional)
+         *
          * Identifier for checkbox filter.
          *
          * @type {String}
@@ -118,6 +123,7 @@ A Polymer Element showing labeled checkboxes for filtering.
 
         /**
          * (Optional)
+         *
          * Whether to show the text in the checkboxes as images.
          *
          * @type {Boolean}
@@ -130,6 +136,7 @@ A Polymer Element showing labeled checkboxes for filtering.
 
         /**
          * (Optional)
+         *
          * The style class for images (if the "images" property is true).
          *
          * @type {String}
