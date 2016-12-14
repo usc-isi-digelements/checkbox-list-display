@@ -125,6 +125,14 @@
           assert.equal(element.$$('paper-checkbox').innerText, element._getFacetContent(element.facets[0]));
           assert.equal(element.$$('paper-checkbox').onTap, element._updateFacetSelection(eventToPassIn));
         });
+
+        test('does not error if buckets are empty', function(done) {
+          element.buckets = [];
+          flush(function() {
+            assert.deepEqual(element.facets, []);
+            done();
+          });
+        });
       });
 
       suite('checkbox-list-display tests with images', function() {

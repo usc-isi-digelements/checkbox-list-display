@@ -158,7 +158,7 @@ A Polymer Element showing labeled checkboxes for filtering.
       _extractFacets: function() {
         var me = this;
         var facets = {};
-        var facetsList = this.buckets.reduce(function(facetsList, bucket) {
+        var facetsList = (this.buckets || []).reduce(function(facetsList, bucket) {
           facets[bucket.key] = {
             text: (bucket.text) ? bucket.text : bucket.key,
             key: bucket.key,

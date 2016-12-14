@@ -1,14 +1,13 @@
 {
   "name": "checkbox-list-display",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "authors": [
     "Next Century Corporation"
   ],
   "description": "A Polymer Element showing labeled checkboxes for filtering.",
   "keywords": [
     "web-component",
-    "polymer",
-    "seed"
+    "polymer"
   ],
   "main": "checkbox-list-display.html",
   "license": "http://polymer.github.io/LICENSE.txt",
