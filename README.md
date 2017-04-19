@@ -1,6 +1,6 @@
 # checkbox-list-display
 
-A Polymer Element showing labeled checkboxes for filtering.  Can be used with the [elastic-checkbox-list-filter](https://github.com/DigElements/elastic-checkbox-list-filter) element to create elasticsearch filters.
+A Polymer Element showing labeled checkboxes for filtering.
 
 ### Example
 ```html
