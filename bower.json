@@ -1,7 +1,7 @@
 {
   "name": "checkbox-list-display",
   "description": "A Polymer Element showing labeled checkboxes for filtering.",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "authors": ["Next Century Corporation"],
   "license": "Apache-2.0",
   "keywords": [
@@ -9,7 +9,6 @@
     "polymer"
   ],
   "main": "checkbox-list-display.html",
-  "license": "http://polymer.github.io/LICENSE.txt",
   "homepage": "https://github.com/DigElements/checkbox-list-display",
   "ignore": [
     "/.*",

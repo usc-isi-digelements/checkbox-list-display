@@ -35,35 +35,35 @@ limitations under the License.
       <p>{{showFacetSelections(bucketFacetSelection.*)}}</p>
     </template>
     <script>
-        (function(document) {
-            var demo = document.querySelector('#demo');
+      (function(document) {
+        var demo = document.querySelector('#demo');
 
-            demo.getBuckets = function() {
-                return [{
-                    key: 'foo',
-                    doc_count: 15,
-                    text: 'blah'
-                },{
-                    key: 'bar',
-                    doc_count: 20,
-                    text: 'meh'
-                },{
-                    key: 'baz',
-                    doc_count: 25,
-                    text: 'yo'
-                }];
-            };
+        demo.getBuckets = function() {
+          return [{
+            key: 'foo',
+            doc_count: 15,
+            text: 'blah'
+          },{
+            key: 'bar',
+            doc_count: 20,
+            text: 'meh'
+          },{
+            key: 'baz',
+            doc_count: 25,
+            text: 'yo'
+          }];
+        };
 
-            demo.bucketFacetSelection = {};
+        demo.bucketFacetSelection = {};
 
-            demo.showFacetSelections = function(objectChange) {
-                return JSON.stringify(this.bucketFacetSelection);
-            };
+        demo.showFacetSelections = function(objectChange) {
+          return JSON.stringify(this.bucketFacetSelection);
+        };
 
-            demo.getBucketsAsJSON = function() {
-              return JSON.stringify(this.getBuckets());
-            };
-        })(document);
+        demo.getBucketsAsJSON = function() {
+          return JSON.stringify(this.getBuckets());
+        };
+      })(document);
     </script>
   </body>
 </html>
