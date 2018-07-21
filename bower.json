@@ -9,7 +9,7 @@
     "polymer"
   ],
   "main": "checkbox-list-display.html",
-  "homepage": "https://github.com/DigElements/checkbox-list-display",
+  "homepage": "https://github.com/usc-isi-digelements/checkbox-list-display",
   "ignore": [
     "/.*",
     "/test/"
